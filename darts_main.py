@@ -46,7 +46,7 @@ def dir_check(ta):
         os.mkdir('./video/{}'.format(ta))
 #    if not os.path.exists('./image/{}'.format(ta)):
 #        os.mkdir('./image/{}'.format(ta))
-    logger.debug('dir_check ok+')
+    logger.debug('dir_check ok')
     
 def dart_cam(now,args,videoname):
     fps_time = 0
@@ -133,12 +133,7 @@ def main():
 
     path, cost = partial_dtw(test_list,train_list)
     print('your score is ',cost)
-    D = (np.array(test_list).reshape(1, -1) - np.array(train_list).reshape(-1, 1))**2
-    [plt.plot(line, [test_list[line[0]], train_list[line[1]]], linewidth=0.8, c='gray') for line in path]
-    plt.plot(test_list)
-    plt.plot(train_list)
-    plt.plot(path[:,0],test_list[path[:,0]], c='C2')
-    plt.show()
+    plot_dtw(test_list,train_list,path)
         
 if __name__ == '__main__':
     main()

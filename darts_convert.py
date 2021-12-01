@@ -136,3 +136,11 @@ def partial_dtw(x, y):
         i, j = B[i, j].astype(int)
         
     return np.array(path), cost
+
+def plot_dtw(test_list,train_list,path):
+    D = (np.array(test_list).reshape(1, -1) - np.array(train_list).reshape(-1, 1))**2
+    [plt.plot(line, [test_list[line[0]], train_list[line[1]]], linewidth=0.8, c='gray') for line in path]
+    plt.plot(test_list)
+    plt.plot(train_list)
+    plt.plot(path[:,0],test_list[path[:,0]], c='C2')
+    plt.show()
