@@ -407,12 +407,12 @@ class TfPoseEstimator:
 
     @staticmethod
     def draw_humans(npimg, humans, imgcopy=False):
-#        print('draw_humans',humans)
+        print('draw_humans',humans)
         if imgcopy:
             npimg = np.copy(npimg)
         image_h, image_w = npimg.shape[:2]
         centers = {}
-#        print('draw_humans type',type(humans))
+        print('draw_humans type',type(humans))
         for human in humans:
             # draw point
             for i in range(common.CocoPart.Background.value):
@@ -421,9 +421,9 @@ class TfPoseEstimator:
 #                print(human.body_parts)
 
                 body_part = human.body_parts[i]
-#                print('body',body_part,'\n')
+                print('body',body_part,'\n')
                 center = (int(body_part.x * image_w + 0.5), int(body_part.y * image_h + 0.5))
-#                print('center',center)
+                print('center',center)
                 centers[i] = center
                 cv2.circle(npimg, center, 3, common.CocoColors[i], thickness=3, lineType=8, shift=0)
 
@@ -431,28 +431,11 @@ class TfPoseEstimator:
             for pair_order, pair in enumerate(common.CocoPairsRender):
                 if pair[0] not in human.body_parts.keys() or pair[1] not in human.body_parts.keys():
                     continue
-#                print('center',centers[pair[0]], centers[pair[1]])
+
                 # npimg = cv2.line(npimg, centers[pair[0]], centers[pair[1]], common.CocoColors[pair_order], 3)
                 cv2.line(npimg, centers[pair[0]], centers[pair[1]], common.CocoColors[pair_order], 3)
 
         return npimg
-
-    def make_body_list(npimg,humans,imgcopy=False):
-        cocolist = ['Nose','Neck','RShoulder','RElbow','RWrist','LShoulder','LElbow','LWrist','RHip','RKnee','RAnkle','LHip','LKnee','LAnkle','REye','LEye','REar','LEar','Background']
-        if imgcopy:
-            npimg = np.copy(npimg)
-        image_h, image_w = npimg.shape[:2]
-        li = []
-        for human in humans:
-            for i in range(common.CocoPart.Background.value):
-                if i not in human.body_parts.keys():
-                    continue
-                body_part = human.body_parts[i]
-                #print('bp',body_part)
-                #print(i,int(body_part.x * image_w + 0.5), int(body_part.y * image_h + 0.5),body_part.score)
-                l = [i,int(body_part.x * image_w + 0.5), int(body_part.y * image_h + 0.5),body_part.score]
-                li.append(l)
-        return li       
 
     def _get_scaled_img(self, npimg, scale):
         get_base_scale = lambda s, w, h: max(self.target_size[0] / float(h), self.target_size[1] / float(w)) * s
