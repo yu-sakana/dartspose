@@ -13,6 +13,10 @@ from tf_pose.networks import get_graph_path, model_wh
 from tf_pose.python_cv2 import VideoCapture
 from darts_convert import *
 
+import tkinter as tk
+from tkinter import messagebox
+import concurrent.futures
+
 logger = logging.getLogger('TfPoseEstimator-WebCam')
 logger.setLevel(logging.DEBUG)
 ch = logging.StreamHandler()
@@ -123,7 +127,7 @@ def main():
     dir_name = now.strftime('%Y_%m%d')
     dir_check(dir_name)
     args = parser()
-    videoname = './video/{}'.format(now.strftime('%Y_%m%d'))+ '/' + now.strftime('%Y%m%d_%H%M') + '.mp4'
+    videoname = 'video/{}'.format(now.strftime('%Y_%m%d'))+ '/' + now.strftime('%Y%m%d_%H%M') + '.mp4'
 
     body_data = dart_cam(now,args,videoname)
     frame,rad = convert_rad(body_data)
@@ -132,8 +136,11 @@ def main():
     train_list = rad_convert_nor(train_list)
 
     path, cost = partial_dtw(test_list,train_list)
-    print('your score is ',cost)
-    plot_dtw(test_list,train_list,path)
-        
+    executor = concurrent.futures.ThreadPoolExecutor(max_workers=2)
+    executor.submit(show_score(cost))
+    executor.submit(plot_dtw(test_list,train_list,path))
+    time.sleep(2)
+    playback(videoname)
+    
 if __name__ == '__main__':
     main()

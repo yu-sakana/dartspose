@@ -10,6 +10,7 @@ import datetime
 import os
 import matplotlib.gridspec as gridspec
 import seaborn as sns
+import cv2
 
 def dir_check(now_time):
     if not os.path.exists('ticc/data/{}'.format(now_time)):
@@ -140,7 +141,64 @@ def partial_dtw(x, y):
 def plot_dtw(test_list,train_list,path):
     D = (np.array(test_list).reshape(1, -1) - np.array(train_list).reshape(-1, 1))**2
     [plt.plot(line, [test_list[line[0]], train_list[line[1]]], linewidth=0.8, c='gray') for line in path]
-    plt.plot(test_list)
-    plt.plot(train_list)
-    plt.plot(path[:,0],test_list[path[:,0]], c='C2')
+    plt.plot(test_list,label='you')
+    plt.plot(train_list,label='model')
+    plt.plot(path[:,0],test_list[path[:,0]], c='C2',label='your throw timing')
+    plt.legend()
     plt.show()
+
+def show_score(score):
+    import pygame
+    WINDOW_WIDTH = 600
+    WINDOW_HIGHT = 600
+    FONT_PATH = "ipaexg.ttf"
+    text = 'あなたの点数は'
+    score = round((1 - score)*100)
+    score_text = str(score) + '点です'
+    pygame.init()
+    text_font = pygame.font.Font (FONT_PATH, 50)
+    score_font = pygame.font.Font (FONT_PATH, 50)
+    text_score_font = pygame.font.Font (FONT_PATH, 50)
+
+    screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HIGHT))
+    screen.fill((0, 0, 0))
+    text_r = text_font.render(text, True, (255,255,255))
+    text_score = score_font.render(score_text, True, (255,255,255))
+    w,h = text_r.get_size()
+#    print(w,h,WINDOW_WIDTH, WINDOW_HIGHT)
+    w_s,h_s = text_score.get_size()
+    screen.blit(text_r, (WINDOW_WIDTH/2 - w/2, 200))
+    screen.blit(text_score, (WINDOW_WIDTH/2 - w_s/2, 300 ))
+    if score > 90:
+        text = 'めっちゃ似てる！'
+        plt_score = text_score_font.render(text, True, (255,255,255))
+        w,h = plt_score.get_size()
+        screen.blit(plt_score, (WINDOW_WIDTH/2 - w/2, 400 ))
+    elif score > 70:
+        text = 'かなり似てる！'
+        plt_score = text_score_font.render(text, True, (255,255,255))
+        w,h = plt_score.get_size()
+        screen.blit(plt_score, (WINDOW_WIDTH/2 - w/2, 400 ))
+    else:
+        text = 'いい感じ！'
+        plt_score = text_score_font.render(text, True, (255,255,255))
+        w,h = plt_score.get_size()
+        screen.blit(plt_score, (WINDOW_WIDTH/2 - w/2, 400 ))
+    pygame.display.flip()
+    LOOP = True
+    while LOOP:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: LOOP = False
+
+def playback(filepath):
+    cap = cv2.VideoCapture('/Users/saka/Documents/seminar/pose/tf-pose-estimation/'+filepath)
+    while(cap.isOpened()):
+        ret, frame = cap.read()
+        if ret == True:
+            cv2.imshow("Frame", frame)
+            if cv2.waitKey(1) == 27:
+                break
+        else:
+            break
+    cap.release()
+    cv2.destroyAllWindows()

@@ -123,4 +123,5 @@ src/pafprocess/pafprocess_wrap.cxx
 csv/
 image/
 video/
-
+not_use/
+py_scripts/

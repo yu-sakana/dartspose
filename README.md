@@ -1,2 +1,2 @@
-Hey! This is a clone of the tf-pose-estimation by Ildoo Kim modified to work with Tensorflow 2.0+!
-Link to original repo: https://www.github.com/ildoonet/tf-openpose
+This repository is used to calculate the angle of the arm when throwing darts based on the tf-pose-estimation of gsethi2409.
+Link to gsethi2409's repo: https://github.com/gsethi2409/tf-pose-estimation
