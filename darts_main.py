@@ -137,7 +137,8 @@ def main():
 
     path, cost = partial_dtw(test_list,train_list)
     executor = concurrent.futures.ThreadPoolExecutor(max_workers=2)
-    executor.submit(show_score(cost))
+    #Uncomment out when playing as a game.
+    #executor.submit(show_score(cost))
     executor.submit(plot_dtw(test_list,train_list,path))
     time.sleep(2)
     playback(videoname)

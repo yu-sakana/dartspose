@@ -152,9 +152,9 @@ def show_score(score):
     WINDOW_WIDTH = 600
     WINDOW_HIGHT = 600
     FONT_PATH = "ipaexg.ttf"
-    text = 'あなたの点数は'
+    text = 'your score'
     score = round((1 - score)*100)
-    score_text = str(score) + '点です'
+    score_text = str(score) + ' / 100'
     pygame.init()
     text_font = pygame.font.Font (FONT_PATH, 50)
     score_font = pygame.font.Font (FONT_PATH, 50)
@@ -165,22 +165,21 @@ def show_score(score):
     text_r = text_font.render(text, True, (255,255,255))
     text_score = score_font.render(score_text, True, (255,255,255))
     w,h = text_r.get_size()
-#    print(w,h,WINDOW_WIDTH, WINDOW_HIGHT)
     w_s,h_s = text_score.get_size()
     screen.blit(text_r, (WINDOW_WIDTH/2 - w/2, 200))
     screen.blit(text_score, (WINDOW_WIDTH/2 - w_s/2, 300 ))
     if score > 90:
-        text = 'めっちゃ似てる！'
+        text = 'excellent'
         plt_score = text_score_font.render(text, True, (255,255,255))
         w,h = plt_score.get_size()
         screen.blit(plt_score, (WINDOW_WIDTH/2 - w/2, 400 ))
     elif score > 70:
-        text = 'かなり似てる！'
+        text = 'very good'
         plt_score = text_score_font.render(text, True, (255,255,255))
         w,h = plt_score.get_size()
         screen.blit(plt_score, (WINDOW_WIDTH/2 - w/2, 400 ))
     else:
-        text = 'いい感じ！'
+        text = 'good'
         plt_score = text_score_font.render(text, True, (255,255,255))
         w,h = plt_score.get_size()
         screen.blit(plt_score, (WINDOW_WIDTH/2 - w/2, 400 ))
