@@ -43,19 +43,15 @@ def parser():
 def str2bool(v):
     return v.lower() in ("yes", "true", "t", "1")
 
-def dir_check(ta):
-#    if not os.path.exists('./csv/{}'.format(ta)):
-#        os.mkdir('./csv/{}'.format(ta))
-    if not os.path.exists('./video/{}'.format(ta)):
-        os.mkdir('./video/{}'.format(ta))
-#    if not os.path.exists('./image/{}'.format(ta)):
-#        os.mkdir('./image/{}'.format(ta))
+def dir_check(now_time):
+    if not os.path.exists('./video/{}'.format(now_time)):
+        os.mkdir('./video/{}'.format(now_time))
     logger.debug('dir_check ok')
     
 def dart_cam(now,args,videoname):
     fps_time = 0
-    ta = now.strftime('%Y_%m%d')
-    dir_check(ta)
+    now_time = now.strftime('%Y_%m%d')
+    dir_check(now_time)
 
     logger.debug('initialization %s : %s' % (args.model, get_graph_path(args.model)))
     w, h = model_wh(args.resize)
@@ -127,7 +123,7 @@ def main():
     dir_name = now.strftime('%Y_%m%d')
     dir_check(dir_name)
     args = parser()
-    videoname = 'video/{}'.format(now.strftime('%Y_%m%d'))+ '/' + now.strftime('%Y%m%d_%H%M') + '.mp4'
+    video_name = 'video/{}'.format(now.strftime('%Y_%m%d'))+ '/' + now.strftime('%Y%m%d_%H%M') + '.mp4'
 
     body_data = dart_cam(now,args,videoname)
     frame,rad = convert_rad(body_data)
