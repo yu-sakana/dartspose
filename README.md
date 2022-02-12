@@ -1,11 +1,24 @@
 # dartspose
 
-This repository is used to calculate the angle of the arm when throwing darts based on the tf-pose-estimation of gsethi2409.
+Dartspose is a system that uses openpose to measure the angle of the person throwing the darts,
+and then measures the similarity of the data to that of a good person.
+
+This repository is  customized for the `M1mac`.
+
+## My method
+
+### Measure the angle of the person throwing the darts
+
+I use tf-pose-estimation of gsethi2409.
 Link to gsethi2409's repo: https://github.com/gsethi2409/tf-pose-estimation
 
-This has been customized for the `M1mac`.
+### Measure of similarity to someone who is good at it
+
+Using Spring what is partial match DTW.
 
 ## Download
+
+Download the source code, by running in the terminal
 
 ```bash
 https://github.com/yu-sakana/dartspose.git
@@ -18,7 +31,7 @@ https://github.com/yu-sakana/dartspose.git
 
 
 ```bash
-conda env create -n 'your env name' -f darts_pose.yml
+conda env create -n {your env name} -f darts_pose.yml
 ```
 
 ## Quick Start Overview
